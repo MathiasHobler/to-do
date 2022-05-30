@@ -3,10 +3,20 @@ import styled from "styled-components";
 
 const Header = () => {
   return (
-    <header>
-      <h1>ToDo</h1>
-    </header>
+    <HeaderStyle>
+      <h1>ToDo List</h1>
+    </HeaderStyle>
   );
 };
 
 export default Header;
+
+const HeaderStyle = styled.header`
+  text-align: center;
+  width: 100%;
+  background-color: lightblue;
+
+  h1 {
+    marign: 0;
+  }
+`;
