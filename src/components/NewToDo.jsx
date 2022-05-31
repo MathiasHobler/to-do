@@ -7,7 +7,11 @@ const NewToDo = ({ addNewToDo }) => {
     <Form
       onSubmit={(event) => {
         event.preventDefault();
-        addNewToDo(newToDo);
+        if (!!newToDo) {
+          addNewToDo(newToDo);
+        }
+        setNewToDo("");
+        event.target.reset();
       }}
     >
       <label>add new ToDo</label>

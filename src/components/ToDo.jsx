@@ -43,7 +43,6 @@ const ToDoContainer = styled.section`
     display: grid;
     grid-template-columns: 4fr 1fr 1fr;
     grid-gap: 1em;
-    background: ${(props) =>
-      !props.toDo.completed ? "lightgreen" : "#f06565"};
+    background: ${(props) => (props.toDo.completed ? "lightgreen" : "#f06565")};
   }
 `;
