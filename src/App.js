@@ -11,9 +11,11 @@ import {
 import { nanoid } from "nanoid";
 import { Routes, Route, Link } from "react-router-dom";
 import useLocalStorage from "./common/useLocalStorage";
+import { useState } from "react";
 
 function App() {
   const [toDos, setToDo] = useLocalStorage("toDoItems", []);
+  const [shuffeld, setShuffeld] = useState([]);
 
   function addNewToDo(addToDo) {
     const newToDo = [
@@ -57,6 +59,10 @@ function App() {
     setToDo(complete);
   }
 
+  function shuffleToDos() {
+    setShuffeld(toDos.filter((toDo) => Math.random() > 0.5));
+  }
+
   return (
     <>
       <Header />
@@ -87,32 +93,27 @@ function App() {
           element={toDos
             .filter((toDo) => toDo.archive)
             .map((toDo) => {
-              return (
-                <ToDo
-                  key={toDo.id}
-                  toDo={toDo}
-                  deleteToDo={() => deleteToDo(toDo.id)}
-                  archiveToDo={() => archiveToDo(toDo.id)}
-                  completeUncomplete={() => completeUncomplete(toDo.id)}
-                />
-              );
+              return <Archive key={toDo.id} toDo={toDo} />;
             })}
         />
         <Route
           path="random"
-          element={toDos
-            .filter((toDo) => Math.random() > 0.5)
-            .map((toDo) => {
-              return (
-                <ToDo
-                  key={toDo.id}
-                  toDo={toDo}
-                  deleteToDo={() => deleteToDo(toDo.id)}
-                  archiveToDo={() => archiveToDo(toDo.id)}
-                  completeUncomplete={() => completeUncomplete(toDo.id)}
-                />
-              );
-            })}
+          element={
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  shuffleToDos();
+                }}
+              >
+                Shuffle
+              </button>
+              <p>Your random ToDo:</p>
+              {shuffeld.map((toDo) => {
+                return <Random key={toDo.id} toDo={toDo} />;
+              })}
+            </>
+          }
         />
       </Routes>
       <Navbar />
