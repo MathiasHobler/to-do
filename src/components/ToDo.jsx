@@ -9,7 +9,7 @@ const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
         <button
           type="button"
           onClick={() => {
-            completeUncomplete(toDo.id);
+            completeUncomplete();
           }}
         >
           {!toDo.completed ? "complete" : "uncomplete"}
@@ -17,11 +17,7 @@ const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
         <button
           type="button"
           onClick={() => {
-            if (toDo.completed) {
-              archiveToDo(toDo.id);
-            } else {
-              deleteToDo(toDo.id);
-            }
+            toDo.completed ? archiveToDo() : deleteToDo();
           }}
         >
           {!toDo.completed ? "delete" : "archive"}

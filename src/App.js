@@ -1,22 +1,11 @@
 import "./App.css";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
 import { Header, ToDo, NewToDo } from "./components/components";
 import { nanoid } from "nanoid";
+import useLocalStorage from "./common/useLocalStorage";
 
 function App() {
-  const [toDos, setToDo] = useState(() => {
-    const localStoredItems = localStorage.getItem("toDoItems");
-    if (localStoredItems) {
-      return JSON.parse(localStoredItems);
-    } else {
-      return [];
-    }
-  });
-
-  useEffect(() => {
-    localStorage.setItem("toDoItems", JSON.stringify(toDos));
-  }, [toDos]);
+  const [toDos, setToDo] = useLocalStorage("toDoItems", []);
 
   function addNewToDo(addToDo) {
     const newToDo = [
@@ -41,7 +30,7 @@ function App() {
   function archiveToDo(id) {
     const archiveToDo = toDos.map((toDo) => {
       if (toDo.id === id) {
-        return { ...toDo, archive: true };
+        return { ...toDo, archive: !toDo.archive };
       } else {
         return toDo;
       }
@@ -64,17 +53,19 @@ function App() {
     <>
       <Header />
       <NewToDo addNewToDo={addNewToDo} />
-      {toDos.map((toDo) => {
-        return (
-          <ToDo
-            key={toDo.id}
-            toDo={toDo}
-            deleteToDo={deleteToDo}
-            archiveToDo={archiveToDo}
-            completeUncomplete={completeUncomplete}
-          />
-        );
-      })}
+      {toDos
+        .filter((todo) => !todo.archive)
+        .map((toDo) => {
+          return (
+            <ToDo
+              key={toDo.id}
+              toDo={toDo}
+              deleteToDo={() => deleteToDo(toDo.id)}
+              archiveToDo={() => archiveToDo(toDo.id)}
+              completeUncomplete={() => completeUncomplete(toDo.id)}
+            />
+          );
+        })}
     </>
   );
 }

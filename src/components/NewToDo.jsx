@@ -11,12 +11,12 @@ const NewToDo = ({ addNewToDo }) => {
           addNewToDo(newToDo);
         }
         setNewToDo("");
-        event.target.reset();
       }}
     >
-      <label>add new ToDo</label>
+      <label>add new ToDo:</label>
       <input
         type="text"
+        value={newToDo}
         onChange={(event) => setNewToDo(event.target.value)}
       ></input>
       <button type="submit">add</button>
@@ -28,4 +28,12 @@ export default NewToDo;
 
 const Form = styled.form`
   width: min(100% - 2rem);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  input {
+    outline: none;
+  }
 `;
