@@ -82,7 +82,22 @@ function App() {
             </>
           }
         />
-        <Route path="archive" element={<Archive />} />
+        <Route
+          path="archive"
+          element={toDos
+            .filter((toDo) => toDo.archive)
+            .map((toDo) => {
+              return (
+                <ToDo
+                  key={toDo.id}
+                  toDo={toDo}
+                  deleteToDo={() => deleteToDo(toDo.id)}
+                  archiveToDo={() => archiveToDo(toDo.id)}
+                  completeUncomplete={() => completeUncomplete(toDo.id)}
+                />
+              );
+            })}
+        />
         <Route path="random" element={<Random />} />
       </Routes>
       <Navbar />
