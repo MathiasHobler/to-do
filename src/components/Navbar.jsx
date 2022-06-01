@@ -1,15 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const Navbar = () => {
   return (
     <Nav>
-      <ul>
-        <Link to="/">Home</Link>
-        <Link to="/Archive">Archive</Link>
-        <Link to="/Random">Random</Link>
-      </ul>
+      <NavLink to="/">
+        Home<div></div>
+      </NavLink>
+      <NavLink to="/Archive">
+        Archive<div></div>
+      </NavLink>
+      <NavLink to="/Random">
+        Random<div></div>
+      </NavLink>
     </Nav>
   );
 };
@@ -18,10 +22,29 @@ export default Navbar;
 
 const Nav = styled.div`
   width: 100%;
+  height: 3.5em;
   background: lightblue;
   position: fixed;
   bottom: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  a {
+    text-decoration: none;
+    color: black;
+    position: relatice;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+    &.active div {
+      margin-top: 5px;
+      margin: auto;
+      height: 5px;
+      width: 5px;
+      border-radius: 50%;
+      background-color: black;
+    }
+  }
 `;

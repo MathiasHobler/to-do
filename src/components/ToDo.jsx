@@ -36,6 +36,7 @@ const ToDoContainer = styled.section`
   padding: 2em;
 
   p {
+    padding: 0.5em;
     display: grid;
     grid-template-columns: 4fr 1fr 1fr;
     grid-gap: 1em;
