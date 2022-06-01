@@ -1,5 +1,5 @@
 import { React } from "react";
-import styled from "styled-components";
+import ToDoContainer from "./ToDo.styled";
 
 const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
   return (
@@ -28,18 +28,3 @@ const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
 };
 
 export default ToDo;
-
-const ToDoContainer = styled.section`
-  width: min(100% - 2rem);
-  display: flex;
-  flex-direction: column;
-  padding: 2em;
-
-  p {
-    padding: 0.5em;
-    display: grid;
-    grid-template-columns: 4fr 1fr 1fr;
-    grid-gap: 1em;
-    background: ${(props) => (props.toDo.completed ? "lightgreen" : "#f06565")};
-  }
-`;
