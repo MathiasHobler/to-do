@@ -1,7 +1,15 @@
 import "./App.css";
 import styled from "styled-components";
-import { Header, ToDo, NewToDo } from "./components/components";
+import {
+  Header,
+  ToDo,
+  NewToDo,
+  Random,
+  Archive,
+  Navbar,
+} from "./components/components";
 import { nanoid } from "nanoid";
+import { Routes, Route, Link } from "react-router-dom";
 import useLocalStorage from "./common/useLocalStorage";
 
 function App() {
@@ -52,20 +60,32 @@ function App() {
   return (
     <>
       <Header />
-      <NewToDo addNewToDo={addNewToDo} />
-      {toDos
-        .filter((todo) => !todo.archive)
-        .map((toDo) => {
-          return (
-            <ToDo
-              key={toDo.id}
-              toDo={toDo}
-              deleteToDo={() => deleteToDo(toDo.id)}
-              archiveToDo={() => archiveToDo(toDo.id)}
-              completeUncomplete={() => completeUncomplete(toDo.id)}
-            />
-          );
-        })}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <NewToDo addNewToDo={addNewToDo} />
+              {toDos
+                .filter((todo) => !todo.archive)
+                .map((toDo) => {
+                  return (
+                    <ToDo
+                      key={toDo.id}
+                      toDo={toDo}
+                      deleteToDo={() => deleteToDo(toDo.id)}
+                      archiveToDo={() => archiveToDo(toDo.id)}
+                      completeUncomplete={() => completeUncomplete(toDo.id)}
+                    />
+                  );
+                })}
+            </>
+          }
+        />
+        <Route path="archive" element={<Archive />} />
+        <Route path="random" element={<Random />} />
+      </Routes>
+      <Navbar />
     </>
   );
 }
