@@ -4,10 +4,11 @@ function useLocalStorage(key, initialState) {
   const [state, setState] = useState(() => {
     try {
       const localStorageValue = localStorage.getItem(key);
-      if (localStorage) {
+      if (localStorageValue) {
         return JSON.parse(localStorageValue);
+      } else {
+        return initialState;
       }
-      return initialState;
     } catch (error) {
       console.warn("could not read from local Storage");
     }

@@ -18,6 +18,8 @@ function App() {
   const [shuffeld, setShuffeld] = useState([]);
 
   function addNewToDo(addToDo) {
+    console.log(addToDo);
+    console.log(toDos);
     const newToDo = [
       ...toDos,
       {
@@ -27,6 +29,7 @@ function App() {
         archive: false,
       },
     ];
+    console.log(newToDo);
     setToDo(newToDo);
   }
 
