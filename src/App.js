@@ -1,13 +1,25 @@
 import "./App.css";
 import styled from "styled-components";
-import { Header, ToDo, NewToDo } from "./components/components";
+import {
+  Header,
+  ToDo,
+  NewToDo,
+  Random,
+  Archive,
+  Navbar,
+} from "./components/components";
 import { nanoid } from "nanoid";
+import { Routes, Route } from "react-router-dom";
 import useLocalStorage from "./common/useLocalStorage";
+import { useState } from "react";
 
 function App() {
   const [toDos, setToDo] = useLocalStorage("toDoItems", []);
+  const [shuffeld, setShuffeld] = useState([]);
 
   function addNewToDo(addToDo) {
+    console.log(addToDo);
+    console.log(toDos);
     const newToDo = [
       ...toDos,
       {
@@ -17,6 +29,7 @@ function App() {
         archive: false,
       },
     ];
+    console.log(newToDo);
     setToDo(newToDo);
   }
 
@@ -49,23 +62,64 @@ function App() {
     setToDo(complete);
   }
 
+  function shuffleToDos() {
+    setShuffeld(toDos.filter((toDo) => Math.random() > 0.5));
+  }
+
   return (
     <>
       <Header />
-      <NewToDo addNewToDo={addNewToDo} />
-      {toDos
-        .filter((todo) => !todo.archive)
-        .map((toDo) => {
-          return (
-            <ToDo
-              key={toDo.id}
-              toDo={toDo}
-              deleteToDo={() => deleteToDo(toDo.id)}
-              archiveToDo={() => archiveToDo(toDo.id)}
-              completeUncomplete={() => completeUncomplete(toDo.id)}
-            />
-          );
-        })}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <NewToDo addNewToDo={addNewToDo} />
+              {toDos
+                .filter((todo) => !todo.archive)
+                .map((toDo) => {
+                  return (
+                    <ToDo
+                      key={toDo.id}
+                      toDo={toDo}
+                      deleteToDo={() => deleteToDo(toDo.id)}
+                      archiveToDo={() => archiveToDo(toDo.id)}
+                      completeUncomplete={() => completeUncomplete(toDo.id)}
+                    />
+                  );
+                })}
+            </>
+          }
+        />
+        <Route
+          path="archive"
+          element={toDos
+            .filter((toDo) => toDo.archive)
+            .map((toDo) => {
+              return <Archive key={toDo.id} toDo={toDo} />;
+            })}
+        />
+        <Route
+          path="random"
+          element={
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  shuffleToDos();
+                }}
+              >
+                Shuffle
+              </button>
+              <p>Your random ToDo:</p>
+              {shuffeld.map((toDo) => {
+                return <Random key={toDo.id} toDo={toDo} />;
+              })}
+            </>
+          }
+        />
+      </Routes>
+      <Navbar />
     </>
   );
 }
