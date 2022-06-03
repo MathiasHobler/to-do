@@ -7,6 +7,7 @@ import {
   Random,
   Archive,
   Navbar,
+  EditToDo,
 } from "./components/components";
 import { nanoid } from "nanoid";
 import { Routes, Route } from "react-router-dom";
@@ -51,6 +52,13 @@ function App() {
     setToDo(archiveToDo);
   }
 
+  function editToDo(id, newValue) {
+    const editedToDo = toDos.map((todo) => {
+      return todo.id === id ? { ...todo, todo: newValue } : todo;
+    });
+    setToDo(editedToDo);
+  }
+
   function completeUncomplete(id) {
     const complete = toDos.map((toDo) => {
       if (toDo.id === id) {
@@ -85,6 +93,7 @@ function App() {
                       deleteToDo={() => deleteToDo(toDo.id)}
                       archiveToDo={() => archiveToDo(toDo.id)}
                       completeUncomplete={() => completeUncomplete(toDo.id)}
+                      editToDo={editToDo}
                     />
                   );
                 })}
@@ -118,6 +127,7 @@ function App() {
             </>
           }
         />
+        <Route path="editToDo" element={<EditToDo />}></Route>
       </Routes>
       <Navbar />
     </>
