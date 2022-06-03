@@ -33,7 +33,6 @@ const Nav = styled.div`
   a {
     text-decoration: none;
     color: black;
-    position: relatice;
 
     &:hover {
       transform: scale(1.2);

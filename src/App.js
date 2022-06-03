@@ -20,7 +20,6 @@ function App() {
   const [inputFilter, setInputFilter] = useState("");
 
   function addNewToDo(addToDo) {
-    console.log(addToDo);
     console.log(toDos);
     const newToDo = [
       ...toDos,
@@ -29,6 +28,8 @@ function App() {
         toDo: addToDo,
         completed: false,
         archive: false,
+        createdDate: new Date().toDateString(),
+        completedDate: "",
       },
     ];
     console.log(newToDo);
@@ -53,17 +54,14 @@ function App() {
     setToDo(archiveToDo);
   }
 
-  function editToDo(id, newValue) {
-    const editedToDo = toDos.map((todo) => {
-      return todo.id === id ? { ...todo, todo: newValue } : todo;
-    });
-    setToDo(editedToDo);
-  }
-
   function completeUncomplete(id) {
     const complete = toDos.map((toDo) => {
       if (toDo.id === id) {
-        return { ...toDo, completed: !toDo.completed };
+        return {
+          ...toDo,
+          completed: !toDo.completed,
+          completedDate: toDo.completed ? "" : new Date().toDateString(),
+        };
       } else {
         return toDo;
       }
@@ -72,12 +70,19 @@ function App() {
   }
 
   function shuffleToDos() {
-    setShuffeld(toDos.filter((toDo) => Math.random() > 0.5));
+    setShuffeld(toDos.filter(() => Math.random() > 0.5));
   }
 
   function filteredToDo(input) {
     const filterToDo = toDos.filter((elem) => elem.toDo.includes(input));
     setFilter(filterToDo);
+  }
+
+  function changeToDo(id, text) {
+    const edit = toDos.map((todo) => {
+      return todo.id !== id ? todo : { ...todo, toDo: text };
+    });
+    setToDo(edit);
   }
 
   return (
@@ -99,7 +104,7 @@ function App() {
                       deleteToDo={() => deleteToDo(toDo.id)}
                       archiveToDo={() => archiveToDo(toDo.id)}
                       completeUncomplete={() => completeUncomplete(toDo.id)}
-                      editToDo={editToDo}
+                      changeToDo={changeToDo}
                     />
                   );
                 })}
