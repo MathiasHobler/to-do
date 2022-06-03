@@ -1,5 +1,6 @@
 import { React } from "react";
 import ToDoContainer from "./ToDo.styled";
+import { Link } from "react-router-dom";
 
 const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
   return (
@@ -13,6 +14,9 @@ const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
           }}
         >
           {!toDo.completed ? "complete" : "uncomplete"}
+        </button>
+        <button>
+          <Link to="editToDo">edit</Link>
         </button>
         <button
           type="button"
