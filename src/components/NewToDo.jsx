@@ -1,14 +1,17 @@
 import { React, useState } from "react";
 import styled from "styled-components";
+import useStore from "../common/useStore";
 
 const NewToDo = ({ addNewToDo }) => {
   const [newToDo, setNewToDo] = useState("");
+  const addToDo = useStore((state) => state.addToDo);
   return (
     <Form
       onSubmit={(event) => {
         event.preventDefault();
         if (!!newToDo) {
           addNewToDo(newToDo);
+          addToDo(newToDo);
         }
         setNewToDo("");
       }}

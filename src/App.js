@@ -12,13 +12,17 @@ import { nanoid } from "nanoid";
 import { Routes, Route } from "react-router-dom";
 import useLocalStorage from "./common/useLocalStorage";
 import { useState } from "react";
+import useStore from "./common/useStore";
 
 function App() {
   const [toDos, setToDo] = useLocalStorage("toDoItems", []);
+  const todos = useStore((state) => state.todos);
+  console.log(todos, "global todo");
+  console.log(toDos, "local todo");
+
   const [shuffeld, setShuffeld] = useState([]);
 
   function addNewToDo(addToDo) {
-    console.log(addToDo);
     console.log(toDos);
     const newToDo = [
       ...toDos,
@@ -29,7 +33,6 @@ function App() {
         archive: false,
       },
     ];
-    console.log(newToDo);
     setToDo(newToDo);
   }
 
@@ -63,7 +66,7 @@ function App() {
   }
 
   function shuffleToDos() {
-    setShuffeld(toDos.filter((toDo) => Math.random() > 0.5));
+    setShuffeld(toDos.filter(() => Math.random() > 0.5));
   }
 
   return (
