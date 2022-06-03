@@ -3,10 +3,21 @@ import ToDoContainer from "./ToDo.styled";
 import { Link } from "react-router-dom";
 
 const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
+  let editButton;
+
+  if (!toDo.complete) {
+    editButton = (
+      <Link to="editToDo">
+        <button>edit</button>
+      </Link>
+    );
+  } else {
+    editButton = <></>;
+  }
   return (
     <ToDoContainer toDo={toDo}>
-      <p>
-        {toDo.toDo}
+      <p>{toDo.toDo}</p>
+      <div>
         <button
           type="button"
           onClick={() => {
@@ -15,9 +26,10 @@ const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
         >
           {!toDo.completed ? "complete" : "uncomplete"}
         </button>
-        <button>
-          <Link to="editToDo">edit</Link>
-        </button>
+        <Link to="editToDo">
+          <button>edit</button>
+        </Link>
+        {editButton}
         <button
           type="button"
           onClick={() => {
@@ -26,7 +38,7 @@ const ToDo = ({ toDo, deleteToDo, archiveToDo, completeUncomplete }) => {
         >
           {!toDo.completed ? "delete" : "archive"}
         </button>
-      </p>
+      </div>
     </ToDoContainer>
   );
 };
