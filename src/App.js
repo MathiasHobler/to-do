@@ -1,5 +1,4 @@
 import "./App.css";
-import styled from "styled-components";
 import {
   Header,
   ToDo,
@@ -16,6 +15,8 @@ import { useState } from "react";
 function App() {
   const [toDos, setToDo] = useLocalStorage("toDoItems", []);
   const [shuffeld, setShuffeld] = useState([]);
+  const [filter, setFilter] = useState(toDos);
+  const [inputFilter, setInputFilter] = useState("");
 
   function addNewToDo(addToDo) {
     console.log(addToDo);
@@ -66,6 +67,11 @@ function App() {
     setShuffeld(toDos.filter((toDo) => Math.random() > 0.5));
   }
 
+  function filteredToDo(input) {
+    const filterToDo = toDos.filter((elem) => elem.toDo.includes(input));
+    setFilter(filterToDo);
+  }
+
   return (
     <>
       <Header />
@@ -93,11 +99,23 @@ function App() {
         />
         <Route
           path="archive"
-          element={toDos
-            .filter((toDo) => toDo.archive)
-            .map((toDo) => {
-              return <Archive key={toDo.id} toDo={toDo} />;
-            })}
+          element={
+            <>
+              <input
+                type="text"
+                value={inputFilter}
+                onChange={(e) => {
+                  setInputFilter(e.target.value);
+                  filteredToDo(e.target.value);
+                }}
+              ></input>
+              {filter
+                .filter((toDo) => toDo.archive)
+                .map((toDo) => {
+                  return <Archive key={toDo.id} toDo={toDo} />;
+                })}
+            </>
+          }
         />
         <Route
           path="random"
